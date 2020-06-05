@@ -27,6 +27,26 @@ const notes = [
   { note: "B5", key: "l", keyNumber: 76, color: "violet" },
 ];
 
+const blackNotes = [
+  { note: "C#4", display: true },
+  { note: "D#4", display: true },
+  { note: "", display: false }, //ghost key
+  { note: "F#4", display: true },
+  { note: "G#4", display: true },
+  { note: "A#4", display: true },
+  { note: "", display: false }, //ghost key
+  { note: "C#5", display: true },
+  { note: "D#5", display: true },
+  { note: "", display: false }, //ghost key
+  { note: "F#5", display: true },
+  { note: "G#5", display: true },
+  { note: "A#5", display: true },
+];
+
+// var piano = SampleLibrary.load({
+//   instruments: "piano",
+// });
+
 function startNote(event, note) {
   console.log(event?.keyCode, event?.detail, { note });
   var synth = new Tone.Synth().toMaster();
@@ -40,6 +60,9 @@ function startNote(event, note) {
 //   const key = document.createElement("div");
 
 const app = document.querySelector(".app");
+
+const whiteKeyWrapper = document.createElement("div");
+whiteKeyWrapper.classList.add("whiteKeyWrapper");
 notes.map((item, index) => {
   const keyDiv = document.createElement("div");
   keyDiv.classList.add("key");
@@ -56,13 +79,38 @@ notes.map((item, index) => {
 
     keyDiv.classList.add("clicked");
   });
-  app.appendChild(keyDiv);
+  whiteKeyWrapper.appendChild(keyDiv);
 });
+app.appendChild(whiteKeyWrapper);
 
-//`<div class='key' onkeydown="startNote(${item.keyNumber})" ></div>`;
+const blackKeyWrapper = document.createElement("div");
+blackKeyWrapper.classList.add("blackKeyWrapper");
+blackNotes.map((item, index) => {
+  const keyDiv = document.createElement("div");
+  keyDiv.classList.add("blackKey");
+  keyDiv.id = `black${index}`;
+  if (!item.display) {
+    keyDiv.style.backgroundColor = "rgb(0, 0, 0, 0)";
+  }
+  if (item.display) {
+    keyDiv.addEventListener("click", () => {
+      startNote(event, item.note);
+      //add the style of the color like we did inside the interval but without an interval
+      keyDiv.style.backgroundColor = item.color;
+      //have a setTimeout that changes the color back (removes the new style thing) after 1 sec
+      //setTimeOut(change it back here after 1s)
+      const setColor = setTimeout(() => {
+        keyDiv.style.backgroundColor = "black";
+      }, 500);
+
+      keyDiv.classList.add("clicked");
+    });
+  }
+  blackKeyWrapper.appendChild(keyDiv);
+});
+app.appendChild(blackKeyWrapper);
+
+// const watchButton = document.querySelector(".watchBtn");
+// watchButton.addEventListener("click", () => {
+//   playVid();
 // });
-
-const watchButton = document.querySelector(".watchBtn");
-watchButton.addEventListener("click", () => {
-  playVid();
-});

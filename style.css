@@ -22,7 +22,14 @@ h1 {
   border: 1px solid black;
   background-color: whitesmoke;
   height: 200px;
-  width: 50px;
+  width: 48px;
+}
+
+.blackKey {
+  background-color: black;
+  width: 25px;
+  height: 120px;
+  margin-left: 25px;
 }
 
 /* .key:active {
@@ -38,4 +45,19 @@ h1 {
   position: relative;
   margin: 10px auto;
   width: 40vw;
+}
+
+.blackKeyWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: absolute;
+  left: -12px;
+  width: 100vw;
+  z-index: 10;
+}
+.whiteKeyWrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
