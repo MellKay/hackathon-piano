@@ -25,31 +25,34 @@ const notes = [
   { note: "G5", key: "l", keyNumber: 76, color: "blue" },
   { note: "A5", key: "l", keyNumber: 76, color: "indigo" },
   { note: "B5", key: "l", keyNumber: 76, color: "violet" },
+  // { note: "C6", key: "l", keyNumber: 76, color: "red" },
 ];
 
 const blackNotes = [
-  { note: "C#4", display: true },
-  { note: "D#4", display: true },
+  { note: "C#4", display: true, color: "yellow" },
+  { note: "D#4", display: true, color: "orange" },
   { note: "", display: false }, //ghost key
-  { note: "F#4", display: true },
-  { note: "G#4", display: true },
-  { note: "A#4", display: true },
+  { note: "F#4", display: true, color: "red" },
+  { note: "G#4", display: true, color: "violet" },
+  { note: "A#4", display: true, color: "indigo" },
   { note: "", display: false }, //ghost key
-  { note: "C#5", display: true },
-  { note: "D#5", display: true },
+  { note: "C#5", display: true, color: "blue" },
+  { note: "D#5", display: true, color: "green" },
   { note: "", display: false }, //ghost key
-  { note: "F#5", display: true },
-  { note: "G#5", display: true },
-  { note: "A#5", display: true },
+  { note: "F#5", display: true, color: "yellow" },
+  { note: "G#5", display: true, color: "orange" },
+  { note: "A#5", display: true, color: "red" },
 ];
 
-// var piano = SampleLibrary.load({
-//   instruments: "piano",
-// });
+var piano = SampleLibrary.load({
+  instruments: "piano",
+});
+console.log("piano:", piano);
 
 function startNote(event, note) {
   console.log(event?.keyCode, event?.detail, { note });
   var synth = new Tone.Synth().toMaster();
+
   synth.triggerAttackRelease(note, "8n");
 }
 
@@ -71,10 +74,12 @@ notes.map((item, index) => {
     startNote(event, item.note);
     //add the style of the color like we did inside the interval but without an interval
     keyDiv.style.backgroundColor = item.color;
+    keyDiv.style.border = "whitesmoke";
     //have a setTimeout that changes the color back (removes the new style thing) after 1 sec
     //setTimeOut(change it back here after 1s)
     const setColor = setTimeout(() => {
       keyDiv.style.backgroundColor = "whitesmoke";
+      keyDiv.style.border = "1px solid black";
     }, 500);
 
     keyDiv.classList.add("clicked");
@@ -91,16 +96,14 @@ blackNotes.map((item, index) => {
   keyDiv.id = `black${index}`;
   if (!item.display) {
     keyDiv.style.backgroundColor = "rgb(0, 0, 0, 0)";
+    keyDiv.style.border = "none";
   }
   if (item.display) {
     keyDiv.addEventListener("click", () => {
       startNote(event, item.note);
-      //add the style of the color like we did inside the interval but without an interval
-      keyDiv.style.backgroundColor = item.color;
-      //have a setTimeout that changes the color back (removes the new style thing) after 1 sec
-      //setTimeOut(change it back here after 1s)
+      keyDiv.style.border = `1px ${item.color} solid`;
       const setColor = setTimeout(() => {
-        keyDiv.style.backgroundColor = "black";
+        keyDiv.style.border = "1px black solid";
       }, 500);
 
       keyDiv.classList.add("clicked");
